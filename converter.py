@@ -23,7 +23,7 @@ def fileStruct(n_array):
 	
 	path = '/'.join((date,time))
 	path = '.'.join((path,"h5"))
-	print(path)
+	#print(path)
 	#fn = os.path.join(os.path.dirname(__file__), 'my_file')
 	#Sprint(fn)
 	
@@ -72,7 +72,7 @@ if __name__=='__main__':
 		all = (bcd_to_int(all[0]), bin_to_int(all[1]), bin_to_int(all[2]))
 	
 		Data.add(all[0],all[1],all[2])
-		print Data.getData()
+		#print Data.getData()
 		
 		fileStruct(Data.getData())
 		
