@@ -27,19 +27,22 @@ def fileStruct(n_array):
 	#fn = os.path.join(os.path.dirname(__file__), 'my_file')
 	#Sprint(fn)
 	
-	with h5py.File(str(path)) as h5file:
+	with h5py.File(str(path), 'w') as h5file:
 		h5file.create_dataset("data", data=n_array)
 		#set = h5file.create_dataset("data", (100, 100), 'i')
 	
 	
 
 class datacollector(object):
-	def __init__(self,size):
+	def __init__(self):
 		self.index = 0
-		self.data = np.zeros(size, dtype=[("az", np.int), ("el", np.int), ("time", np.int)])
+		self.data = np.zeros(1, dtype=[("el", np.int), ("az", np.int), ("time", np.int)])
 	def add(self,az,el,time):
+		self.data.resize(self.index+1, 1)
 		self.data[self.index] = ((az,el,time))
-		self.index += 1
+		
+		self.index =self.index+ 1
+		
 	def getData(self):
 		return self.data
 	
@@ -55,22 +58,23 @@ if __name__=='__main__':
 	'''
 	data = np.zeros(1000, dtype=[("first", np.int), ("second", np.int)])
 	eye = getData.Eyeball()
-	Data = datacollector(1000)
-	fileStruct(Data.getData())
+	Data = datacollector()
+	#fileStruct(Data.getData())
 
 	
 	while True:
 		#time_a = time.time()
 		
-		Data = datacollector(1000)
 		
 		#timer loop
 		all = eye.getData()
 		
 		all = (bcd_to_int(all[0]), bin_to_int(all[1]), bin_to_int(all[2]))
-		print all
+	
 		Data.add(all[0],all[1],all[2])
-		#fileStruct(Data.getData())
+		print Data.getData()
+		
+		fileStruct(Data.getData())
 		
 		
 		

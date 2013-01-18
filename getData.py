@@ -51,7 +51,7 @@ class Eyeball(object):
 		all = [self.data[d] for d in range(0,95)]
 		all = map(str, all)
 		a
-		return  [''.join(all[0:18]), ''.join((all[24:32])[::-1])+"".join((all[32:40])[::-1]), ''.join(all[41:65])]
+		return  [''.join((all[0:16])[::-1])+''.join((all[16:18])[::-1]), ''.join((all[24:32])[::-1])+"".join((all[32:40])[::-1]), ''.join((all[40:48])[::-1])+''.join((all[48:56])[::-1])+''.join((all[56:64])[::-1])]
 
 	
 if __name__=='__main__':
