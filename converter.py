@@ -4,6 +4,7 @@ import numpy as np
 import h5py
 import getData
 import time
+import sys
 
 	
 def bcd_to_int(bcd_str):
@@ -36,9 +37,13 @@ def fileStruct(n_array):
 class datacollector(object):
 	def __init__(self):
 		self.index = 0
-		self.data = np.zeros(1, dtype=[("el", np.int), ("az", np.int), ("time", np.int)])
+		self.free_space = 1000
+		self.data = np.zeros(self.free_space, dtype=[("el", np.int), ("az", np.int), ("time", np.int)])
+		
 	def add(self,az,el,time):
-		self.data.resize(self.index+1, 1)
+		if self.index>=self.free_space:
+				self.data.resize(self.index+1000, 1)
+				self.free_space = self.free_space+1000
 		self.data[self.index] = ((az,el,time))
 		
 		self.index =self.index+ 1
@@ -61,11 +66,8 @@ if __name__=='__main__':
 	Data = datacollector()
 	#fileStruct(Data.getData())
 
-	
+	time_a = time.time()
 	while True:
-		#time_a = time.time()
-		
-		
 		#timer loop
 		all = eye.getData()
 		
@@ -73,13 +75,18 @@ if __name__=='__main__':
 	
 		Data.add(all[0],all[1],all[2])
 		#print Data.getData()
+		time_b = time.time()
+		delta = time_b-time_a
+		print delta
+		if(delta>=int(sys.argv[1])): 
+			fileStruct(Data.getData())
+			time_a=time.time();
+			print "file written"
+			input()
 		
-		fileStruct(Data.getData())
 		
 		
-		
-		#time_b = time.time()
-		#delta = time_b-time_a
+	
 		
 		#print delta
 		
